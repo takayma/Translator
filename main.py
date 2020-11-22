@@ -1,26 +1,31 @@
-def to_ten (num, system):
+def translator (num, system_from, system_to):
 	num = list(str(num))
 	total = 0
-	i = 0
-	while i < len(num):
+	for i in range(len(num)):
+		if system_from == 16:
+			if num[i] == 'A': num[i] = 10
+			if num[i] == 'B': num[i] = 11
+			if num[i] == 'C': num[i] = 12
+			if num[i] == 'D': num[i] = 13
+			if num[i] == 'E': num[i] = 14
+			if num[i] == 'F': num[i] = 15
 		num[i] = int(num[i])
-		if num[i] >= system:
-			raise ValueError(f'Error in def to_ten, {num[i]} is bigger than system ({system})')
-		total += system ** (len(num) - 1 - i) * num[i]
-		i += 1
-	return total
+		if num[i] >= system_from:
+			raise ValueError(f'Error, {num[i]} is bigger than system from ({system_from})')
+		total += system_from ** (len(num) - 1 - i) * num[i]
 
-def from_ten (num, system):
+	num = total
 	total = []
-	while num > system:
-		total.insert(0, f'{num % system}')
-		num //= system
-	total.insert(0, f'{num}')
-	total = ''.join(total)
+	while num >= system_to:
+		rem = num % system_to
+		if system_to == 16:
+			if rem == 10: rem = 'A'
+			if rem == 11: rem = 'B'
+			if rem == 12: rem = 'C'
+			if rem == 13: rem = 'D'
+			if rem == 14: rem = 'E'
+			if rem == 15: rem = 'F'
+		total.insert(0, f'{rem}')
+		num //= system_to
+	total = ''.join([str(num)] + total)
 	return total
-
-def translator (num, system1, system2):
-	if system1 != 10:
-		num = to_ten(num, system1)
-	num = from_ten(num, system2)
-	return num
