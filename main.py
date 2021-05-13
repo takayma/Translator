@@ -1,5 +1,5 @@
 def translator (num, system_from, system_to):
-	num = list(str(num))
+	num = [int(i) for i in str(num)] 
 	total = 0
 	for i in range(len(num)):
 		if system_from == 16:
@@ -9,9 +9,6 @@ def translator (num, system_from, system_to):
 			if num[i] == 'D': num[i] = 13
 			if num[i] == 'E': num[i] = 14
 			if num[i] == 'F': num[i] = 15
-		num[i] = int(num[i])
-		if num[i] >= system_from:
-			raise ValueError(f'Error, {num[i]} is bigger than system from ({system_from})')
 		total += system_from ** (len(num) - 1 - i) * num[i]
 
 	num = total
@@ -29,3 +26,5 @@ def translator (num, system_from, system_to):
 		num //= system_to
 	total = ''.join([str(num)] + total)
 	return total
+
+print(translator(1101010100101, 2, 16))
